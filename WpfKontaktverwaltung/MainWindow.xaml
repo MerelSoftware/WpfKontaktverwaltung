@@ -1,0 +1,149 @@
+﻿<Window x:Class="WpfKontaktverwaltung.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfKontaktverwaltung"
+        mc:Ignorable="d"
+        Title="Kontaktverwaltung" Height="500" Width="800"
+        MinHeight="500" MinWidth="800">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <!-- MainPanel -->
+        <StackPanel Grid.Column="0" IsEnabled="{Binding IsContactEnabled, Mode=OneWay}">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid Margin="5 5" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0">Vorname</Label>
+                    <TextBox Grid.Column="1"
+                         Padding="2"
+                         Text="{Binding CurrentContact.Contact.Surname, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+
+                <Grid Margin="5 5" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0">Nachname</Label>
+                    <TextBox Grid.Column="1"
+                         Padding="2"
+                         Text="{Binding CurrentContact.Contact.Lastname, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </Grid>
+            <Grid Margin="5 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0">Organisation</Label>
+                <TextBox Grid.Column="1"
+                         Padding="2"
+                         Text="{Binding CurrentContact.Contact.Organisation, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+
+            <Grid Margin="5 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0">Telefon</Label>
+                <TextBox Grid.Column="1"
+                         Padding="2"
+                         Text="{Binding CurrentContact.Contact.Phone, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+
+            <Grid Margin="5 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0">E-Mail</Label>
+                <TextBox Grid.Column="1"
+                         Padding="2"
+                         Text="{Binding CurrentContact.Contact.EMail}" />
+            </Grid>
+
+
+            <StackPanel Margin="5 5">
+                <Label>Notiz</Label>
+                <TextBox Height="180"
+                         Padding="2"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         Text="{Binding CurrentContact.Contact.Note}" />
+            </StackPanel>
+
+            <Grid>
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Column="1"
+                        Margin="5 0" Padding="4"
+                        Background="IndianRed"
+                        Command="{Binding DestroyContactCommand}">
+                    Löschen
+                </Button>
+                <Button Grid.Column="2"
+                        Margin="5 0" Padding="4"
+                        Background="CadetBlue"
+                        Command="{Binding CurrentContact.PersistContactCommand}">
+                    Speichern
+                </Button>
+            </Grid>
+        </StackPanel>
+
+        <!-- SidePanel -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="32"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ListBox Grid.Row="0"
+                 ItemsSource="{Binding ContactCollection}" 
+                 SelectedItem="{Binding CurrentContact, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions >
+                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="{Binding Contact.Fullname}" />
+                                <TextBlock Text="{Binding Contact.Phone}" />
+                            </StackPanel>
+                        </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button Grid.Row="1" Command="{Binding CreateContactCommand}">Neuen Kontakt anlegen</Button>
+        </Grid>
+    </Grid>
+</Window>
